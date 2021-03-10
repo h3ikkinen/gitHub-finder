@@ -2,8 +2,52 @@
   <div class="wrapper-content wrapper-content--fixed">
     <section>
       <div class="container">
-        <h1>Home Page</h1>
+
+        <!-- search -->
+        <search 
+          :value="search"
+          placeholder='Type username...'
+          @search="search = $event"
+        />
+        <button 
+          class="btn btnPrimary"
+          @click="getRepos"
+        >
+          Search
+        </button>
       </div>
     </section>
   </div>
 </template>
+
+<script>
+import search from '@/components/Search.vue';
+
+
+export default {
+  components: {
+    search
+  },
+  data() {
+    return {
+      search: '',
+    }
+  },
+  methods: {
+    getRepos () {
+      console.log(`get user ${this.search} repos`)
+    }
+  }
+}
+</script>
+
+<style lang="scss" scoped>
+  .container {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+  }
+  .btn {
+    margin-top: 20px;
+  }
+</style>
