@@ -7,8 +7,7 @@
     </div>
     <!-- Search input -->
     <input type="text" :placeholder="placeholder" v-model="search"/>
-
-  </div>
+  </div>  
 </template>
 
 <script>
@@ -26,14 +25,13 @@ export default {
   data () {
     return { search: this.value }
   },
-
   //watch - следит за Search - передан через пропс , сейчас находится в дате 
   watch: {
     search (val) {
       // console.log(val)
       this.$emit('search', val);
     }
-  }
+  },
 }
 </script>
 

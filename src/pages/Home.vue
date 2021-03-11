@@ -18,13 +18,7 @@
         </p>
       </div>
       <div class="container">
-
         <!-- search -->
-
-
-    
-
-        
         <div v-if="user" class="user">
           <div class="left">
             <img :src="user.avatar_url" alt="avatar">
@@ -42,7 +36,7 @@
                 </span>
                 <span>Repositories: {{ user.public_repos }} </span>
                 <span v-if="user.company">Company: {{ user.company }} </span>
-                <span>Created at: {{ user.created_at.substr(0, user.created_at.length - 10) }} </span>
+                <span>Created at: {{ dateEdit(user.created_at) }} </span>
               </div>
           </div>
         </div>
@@ -53,11 +47,9 @@
             Repositories
           </h2>
           <p class="sort__debag">
-            Debag:
-            <br />
+            Debug:
             sort: <span class="debagBlue">{{ currentSort }}</span
             >,
-            <br />
             dir: <span class="debagBlue">{{ currentSortDir }}</span>
           </p>
           <div class="sort">
@@ -76,8 +68,17 @@
               </span>
             </div>
           </a>
+          <!-- pagination -->
+          <div v-if="reposSort">
+              <div class="button-list">
+                  <div @click="prevPage" class="btn btnPrimary">&#8592;</div>
+                  <div @click="nextPage" class="btn btnPrimary">&#8594;</div>
+              </div>
+          </div>
         </div>
+        
       </div>
+     
     </section>
   </div>
 </template>
@@ -85,7 +86,6 @@
 <script>
 // libs
 import axios from 'axios';
-
 // components
 import search from '@/components/Search.vue';
 
@@ -103,6 +103,10 @@ export default {
       error: null,
       currentSort: null,
       currentSortDir: "asc",
+      page: {
+        current: 1,
+        length: 5,
+      },
     }
   },
   methods: {
@@ -147,9 +151,26 @@ export default {
               if (a[this.currentSort] > b[this.currentSort]) return mod;
               
               return 0;
+          }).filter((row, index) => {
+              let start = (this.page.current-1)*this.page.length;
+              let end = this.page.current * this.page.length;
+              if (index >= start && index < end) return true
           })
       },
-  }
+      prevPage () {
+          if (this.page.current > 1) this.page.current-=1
+          this.sortUsers()
+      },
+      nextPage () {
+          if ( (this.page.current * this.page.length ) < this.repos.length) this.page.current+=1
+          this.sortUsers()
+      },
+      dateEdit(str) {
+        var dateFormat = require("dateformat");
+        return dateFormat(str, "fullDate")
+      }
+  },
+
 }
 </script>
 
@@ -177,6 +198,13 @@ export default {
     &:hover {
       background-color: salmon;
       border: 1px solid salmon;
+    }
+  }
+  .button-list {
+    .btn {
+      &:last-child {
+        margin-left: 20px;
+      }
     }
   }
   .link {

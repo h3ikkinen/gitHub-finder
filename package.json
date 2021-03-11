@@ -7,9 +7,13 @@
     "build": "vue-cli-service build"
   },
   "dependencies": {
+    "@myena/advanced-select": "^0.9.3",
     "axios": "^0.21.1",
+    "dateformat": "^4.5.1",
+    "normalize-date": "0.0.4",
     "vue": "^2.6.10",
     "vue-router": "^3.1.2",
+    "vue-simple-suggest": "^1.10.3",
     "vuex": "^3.1.1"
   },
   "devDependencies": {
